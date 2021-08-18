@@ -25,7 +25,7 @@ jobs:
     needs: Clone-down
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
-   steps:
+    steps:
       - name: Downlaod Repo
         uses: actions/download-artifact@v2
         with:
