@@ -48,7 +48,7 @@ jobs:
   Docker-image:
     needs: [Build, Test]
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
+
     steps:
       - name: Downlaod Repo
         uses: actions/download-artifact@v2
