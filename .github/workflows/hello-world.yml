@@ -33,6 +33,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: my-artifact
-          path: path/to/artifact
-      - name: Download
+          path: .
+      - name: my-step
         run: chmod +x ci/build-app.sh && ci/build-app.sh
