@@ -1,38 +1,57 @@
+env:
+docker_username: ${{ secrets.DOCKER_USERNAME }}
+docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
 name: Java CI
 on: push
 jobs:
-  Clone-down:
-    runs-on: ubuntu-latest
-    container: gradle:6-jdk11
-    steps:
-      - uses: actions/checkout@v2
-      - name: Upload Repo
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: .
-  
-  Test:
-    needs: Clone-down
-    runs-on: ubuntu-latest
-    container: gradle:6-jdk11
-    steps:
-      - name: Downlaod Repo
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifact
-          path: .
-      - name: my-step
-        run: chmod +x ci/build-app.sh && ci/build-app.sh  
-  Build:
-    needs: Clone-down
-    runs-on: ubuntu-latest
-    container: gradle:6-jdk11
-    steps:
-      - name: Downlaod Repo
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifact
-          path: .
-      - name: my-step
-        run: chmod +x ci/build-app.sh && ci/build-app.sh
+Clone-down:
+  runs-on: ubuntu-latest
+  container: gradle:6-jdk11
+  steps:
+    - uses: actions/checkout@v2
+    - name: Upload Repo
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: .
+
+Test:
+  needs: Clone-down
+  runs-on: ubuntu-latest
+  container: gradle:6-jdk11
+  steps:
+    - uses: actions/checkout@v2
+    - name: Upload Repo
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: .
+    - name: my-step
+      run: chmod +x ci/build-app.sh && ci/build-app.sh  
+Build:
+  needs: Clone-down
+  runs-on: ubuntu-latest
+  container: gradle:6-jdk11
+  steps:
+    - name: Downlaod Repo
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
+        path: .
+    - name: my-step
+      run: chmod +x ci/build-app.sh && ci/build-app.sh
+Docker-image:
+  needs: [Build, Test]
+  runs-on: ubuntu-latest
+  container: gradle:6-jdk11
+  steps:
+    - name: Downlaod Repo
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
+        path: .
+    - name: my-step
+      run: chmod +x ci/build-app.sh && ci/build-app.sh
+    - name: runner
+      run: export GIT_COMMIT="GA-$GITHUB_SHA"
