@@ -9,7 +9,7 @@ jobs:
       - name: Upload Repo
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
+          name: code
           path: .
   
   Test:
@@ -17,10 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
-      - uses: actions/download-artifact@v2
-      - name: Download Repo
-        run: ci/unit-test-app.sh
-  
+      - name: Downlaod Repo
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+          path: .
+      - name: my-step
+        run: chmod +x ci/build-app.sh && ci/build-app.sh  
   Build:
     needs: Clone-down
     runs-on: ubuntu-latest
