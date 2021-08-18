@@ -60,4 +60,4 @@ jobs:
       - name: build app
         run: chmod +x ci/build-docker.sh && ci/build-docker.sh
       - name: deploy app
-        run: chmod +x ci/deploy-docker.sh && ci/deploy-docker.sh
+        run: chmod +x ci/push-docker.sh && ci/push-docker.sh
