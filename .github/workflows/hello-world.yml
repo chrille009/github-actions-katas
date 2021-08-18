@@ -7,7 +7,6 @@ on: push
 jobs:
   Clone-down:
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
     steps:
       - uses: actions/checkout@v2
       - name: Upload Repo
@@ -15,7 +14,6 @@ jobs:
         with:
           name: my-artifact
           path: .
-
 
   Test:
     needs: Clone-down
