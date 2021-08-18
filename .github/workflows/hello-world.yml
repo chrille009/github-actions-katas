@@ -27,4 +27,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: my-artifact
-          path: path/to/artifact/
+          path: path/to/artifact
+      - name: Download
+        run: chmod +x ci/build-app.sh && ci/build-app.sh
